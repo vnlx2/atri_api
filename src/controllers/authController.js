@@ -23,13 +23,11 @@ export const login = async (req, res) => {
                 { user_id: user._id, username },
                 process.env.TOKEN_KEY,
                 {
-                    expiresIn: "2h"
+                    expiresIn: "1d"
                 }
             );
-
             user.token = token;
-
-            return success(res, 200, 'Login Success', [{"token": token}]);
+            return success(res, 200, 'Login Success', {"token": token});
         }
         else {
             return error(res, 400, 'credential_password_invalid', 'Invalid Password');
