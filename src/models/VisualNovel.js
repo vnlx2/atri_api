@@ -9,7 +9,7 @@ const linkSchema = mongoose.Schema({
     type : {
         type: String
     },
-    link : {
+    url : {
         type: String,
         required: true
     }
