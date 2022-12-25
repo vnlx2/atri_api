@@ -8,9 +8,6 @@ mongoose.connect(process.env.MONGODB_URI, {
     useUnifiedTopology: true
 });
 
-const db = mongoose.connection;
-db.on('error', (error)=> console.error(error));
-db.once('open', () => console.log('Database Connected'));
-
-// Export
-export default db;
+export const db = mongoose.connection
+    .on('error', (error) => console.error(error))
+    .once('open', () => console.log('Database Connected'));

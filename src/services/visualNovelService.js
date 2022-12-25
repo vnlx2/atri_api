@@ -1,4 +1,5 @@
 import VisualNovel from "../models/VisualNovel.js";
+import { findByCode } from "./vndbService.js";
 
 // Store Visual Novel
 const store = async (body) => {
@@ -23,8 +24,10 @@ const detail = async (code) => {
         if(!response) {
             throw { code: 404, message: 'Not Found' };
         }
+        const title = await findByCode(response.code, {title:1, _id: 0});
         response = {
             code: response.code,
+            title: title.title,
             vnDataUrls: convertDBFormatToFormFormat(response)
         };
         return { code: 200, data: response };

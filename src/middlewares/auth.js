@@ -26,7 +26,6 @@ const verifyToken = (req, res, next) => {
             throw "Unauthorized";
         }
     } catch (err) {
-        console.log(`Debug : ${req.headers["authorization"]}`);
         return error(res, 401, 'auth_required', 'Unauthorized', err);
     }
 }

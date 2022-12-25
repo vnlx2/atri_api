@@ -1,11 +1,10 @@
 import express from 'express';
-import db from './src/configs/database.js';
+import { db } from './src/configs/database.js';
 import dotenv from 'dotenv';
 import birthdayRouter from './src/routes/birthday.js';
 import userRouter from './src/routes/user.js';
 import authRouter from './src/routes/auth.js';
 import vnRouter from './src/routes/visualNovel.js';
-import cors from 'cors';
 
 dotenv.config();
 const app = express();
