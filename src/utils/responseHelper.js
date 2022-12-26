@@ -5,11 +5,33 @@ export const success = (res, code, message, data=[]) => {
     return res.status(code).json({message : message, data: data});
 }
 
-export const error = (res, code, errorCode='fatal_error', message, err=null, errors=[]) => {
-    if(process.env.APP_DEBUG) {
-        return res.status(code).json({code: errorCode, message : message, detailMessage : (err === null) ? '' : err.message, error : errors});
+export const error = (response, code, errorCode='fatal_error', message, error=null) => {
+    let body = {
+        code: errorCode,
+        message: message
+    };
+    if(process.env.APP_DEBUG && error != null) {
+        body.detailMessage = error.message;
     }
-    else {
-        return res.status(500).json({code: errorCode, message : message, error: errors});
+    
+    if(error.name === "ValidationError") {
+        body = validationError(body, error);
+        code = 400;
     }
+    
+    return response.status(code).json(body);
+}
+
+function validationError(body, error) {
+    // Catch all validation error
+    let errors = {};
+    Object.keys(error.errors).forEach((key) => {
+        errors[key] = error.errors[key].message;
+    });
+
+    // Update error body
+    body.errors = errors;
+    body.code = 'validation_error';
+    
+    return body;
 }

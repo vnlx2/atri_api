@@ -42,13 +42,6 @@ export const store = async (request, response) => {
             throw err;
         }
     } catch (err) {
-        if(err.name === "ValidationError") {
-            let errors = {};
-            Object.keys(err.errors).forEach((key) => {
-                errors[key] = err.errors[key].message;
-            });
-            return error(response, 400, 'validation_error', 'Store FanTL Team failed', err, errors);
-        }
         return error(response, 500, 'fatal_error', 'Store FanTL Team Data Failed', err);
     }
 }
@@ -60,7 +53,7 @@ export const update = async (request, response) => {
         if(team === null) {
             return error(response, 404, "Data Not Found");
         }
-        await FanTLTeam.updateOne({code: request.body.code}, {$set: request.body});
+        await FanTLTeam.updateOne({code: request.body.code}, {$set: request.body}, { runValidators: true });
         return success(response, 200, "Update FanTL Team Data Success");
     } catch (err) {
         return error(response, 500, 'fatal_error', 'Update FanTL Team Data Failed', err);
