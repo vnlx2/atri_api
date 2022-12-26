@@ -68,7 +68,7 @@ export const update = async (req, res) => {
     }
     else {
         try {
-            await Birthday.updateOne({_id: req.body._id}, {$set: req.body});
+            await Birthday.updateOne({_id: req.body._id}, {$set: req.body}, { runValidators: true });
             success(res, 200, "Update Birthday Data Success");
         } catch (err) {
             error(res, 500, 'Update Birthday Data Failed', err);

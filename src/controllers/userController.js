@@ -67,7 +67,7 @@ export const update = async (req, res) => {
                     .then(async (hash) => {
                         req.body.password = hash;
                         try {
-                            await User.updateOne({_id: req.body.id}, {$set: req.body});
+                            await User.updateOne({_id: req.body.id}, {$set: req.body}, { runValidators: true });
                             return success(res, 200, "Update User Data Success");
                         } catch (err) {
                             throw err;

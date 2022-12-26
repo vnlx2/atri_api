@@ -45,7 +45,7 @@ export const store = async (req, res) => {
 // Update Visual Novel
 export const update = async (req, res) => {
     try {
-        await VisualNovelService.update(req.body);
+        await VisualNovelService.update(req.body, { runValidators: true });
         return success(res, 200, "Update Visual Novel Data Success");
     } catch (err) {
         console.error(err);
