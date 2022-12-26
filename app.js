@@ -5,6 +5,7 @@ import birthdayRouter from './src/routes/birthday.js';
 import userRouter from './src/routes/user.js';
 import authRouter from './src/routes/auth.js';
 import vnRouter from './src/routes/visualNovel.js';
+import fanTLTeamRouter from './src/routes/fanTLTeam.js';
 
 dotenv.config();
 const app = express();
@@ -24,6 +25,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/birthday', birthdayRouter);
 app.use('/api/v1/visualnovel', vnRouter);
+app.use('/api/v1/fantl', fanTLTeamRouter);
 
 
 app.listen(port, () => {
