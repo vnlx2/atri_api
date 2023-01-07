@@ -6,7 +6,11 @@ dotenv.config();
 
 const verifyToken = (req, res, next) => {
     try {
-        if(req.method == "OPTIONS") {
+        if(
+            req.method == "OPTIONS" &&
+            req.headers.origin &&
+            req.headers['access-control-request-method']
+        ) {
             return next();
         }
 
