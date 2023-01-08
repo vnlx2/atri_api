@@ -33,6 +33,6 @@ export const login = async (req, res) => {
             return error(res, 400, 'credential_password_invalid', 'Invalid Password');
         }
     } catch(err) {
-        return error(res, 500, 'Login Failed', err);
+        return error(res, 500, 'error', 'Login Failed', err);
     }
 }

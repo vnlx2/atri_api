@@ -14,7 +14,7 @@ export const error = (response, code, errorCode='fatal_error', message, error=nu
         body.detailMessage = error.message;
     }
     
-    if(error.name === "ValidationError") {
+    if(error != null && error.name === "ValidationError") {
         body = validationError(body, error);
         code = 400;
     }
