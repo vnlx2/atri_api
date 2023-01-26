@@ -1,4 +1,7 @@
 import VisualNovel from "../models/VisualNovel.js";
+import visualNovelRepository from "../repositories/visualNovelRepository.js";
+import vndbRepository from "../repositories/vndbRepository.js";
+import addTitleToVNs from "../utils/addTitleToVNs.js";
 import { findByCode } from "./vndbService.js";
 
 // Store Visual Novel
@@ -17,6 +20,17 @@ const store = async (body) => {
         throw err;
     }
 };
+
+const list = async () => {
+    try {
+        const visualNovelsRaw = await visualNovelRepository.list();
+        const visualNovels = await addTitleToVNs(visualNovelsRaw);
+        return { code: 200, visualNovels };
+    }
+    catch (err) {
+        throw err;
+    }
+}
 
 const detail = async (code) => {
     try {
@@ -124,6 +138,7 @@ const createFormFormat = (urlData, language) => {
 }
 
 export default {
+    list,
     store, 
     detail,
     update,

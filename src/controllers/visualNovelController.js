@@ -5,12 +5,14 @@ import { error, success } from "../utils/responseHelper.js";
 // Show Visual Novel List
 export const list = async (req, res) => {
     try {
-        const vn = await VisualNovel.find().select('-jp_link -en_link -id_link');
-        if(vn.length === 0) {
+        const visualNovels = await VisualNovelService.list();
+        if(visualNovels.length === 0) {
             return error(res, 200, 'Empty Data');
         }
-        return success(res, 200, 'Fetch Visual Novel List Success', vn);
+        console.log(visualNovels);
+        return success(res, 200, 'Fetch Visual Novel List Success', visualNovels);
     } catch (err) {
+        console.error(err);
         return error(res, 500, 'Fetch Visual Novel List Failed', err);
     }
 }
