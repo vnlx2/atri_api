@@ -1,30 +1,24 @@
 import VisualNovel from "../models/VisualNovel.js";
 import visualNovelRepository from "../repositories/visualNovelRepository.js";
-import vndbRepository from "../repositories/vndbRepository.js";
-import addTitleToVNs from "../utils/addTitleToVNs.js";
-import { findByCode } from "./vndbService.js";
 
 // Store Visual Novel
 const store = async (body) => {
     try {
-        const isVNExists = await VisualNovel.findOne({code: body.code});
-        if(isVNExists) {
-            throw { code: 400, message: 'VN Code exists' };
+        const visualNovel = await visualNovelRepository.find(body.code)
+        if(visualNovel) {
+            throw { code: 400, message: 'VN Download Link was exists' };
         }
-        body = { ...body, ...convertFormFormatToDBFormat(body)};
-        delete body['vnDataUrls'];
-        const vn = await VisualNovel.create(body);
-        await vn.save();
+        const downloadUrls = {...convertFormFormatToDBFormat(body)};
+        await visualNovelRepository.update(body.code, downloadUrls);
         return { code: 201 };
     } catch (err) {
         throw err;
     }
 };
 
-const list = async () => {
+const list = async (page) => {
     try {
-        const visualNovelsRaw = await visualNovelRepository.list();
-        const visualNovels = await addTitleToVNs(visualNovelsRaw);
+        const visualNovels = await visualNovelRepository.list(page);
         return { code: 200, visualNovels };
     }
     catch (err) {
@@ -34,15 +28,14 @@ const list = async () => {
 
 const detail = async (code) => {
     try {
-        let response = await VisualNovel.findOne({code: code}).select();
-        if(!response) {
+        const visualNovel = await visualNovelRepository.find(code)
+        if(!visualNovel) {
             throw { code: 404, message: 'Not Found' };
         }
-        const title = await findByCode(response.code, {title:1, _id: 0});
-        response = {
-            code: response.code,
-            title: title.title,
-            vnDataUrls: convertDBFormatToFormFormat(response)
+        const response = { 
+            code: visualNovel.code,
+            title: visualNovel.title,
+            downloadUrl: convertDBFormatToFormFormat(visualNovel.downloadUrl) 
         };
         return { code: 200, data: response };
     } catch (err) {
@@ -52,13 +45,12 @@ const detail = async (code) => {
 
 const update = async(body) => {
     try {
-        const isVNExists = await VisualNovel.findOne({code: body.code});
-        if(!isVNExists) {
+        const visualNovel = await visualNovelRepository.find(body.code)
+        if(!visualNovel) {
             throw { code: 404, message: 'VN Not Found' };
         }
-        body = { ...body, ...convertFormFormatToDBFormat(body) };
-        delete body['vnDataUrls'];
-        await VisualNovel.updateOne({code: body.code}, {$set: body});
+        const downloadUrls = {...convertFormFormatToDBFormat(body)};
+        await visualNovelRepository.update(body.code, downloadUrls, 'update');
         return { code: 200 };
     } catch (err) {
         throw err;
@@ -67,11 +59,12 @@ const update = async(body) => {
 
 const drop = async(code) => {
     try {
-        const isVNExists = await VisualNovel.findOne({code: code});
-        if(!isVNExists) {
+        const visualNovel = await visualNovelRepository.find(code);
+        if(!visualNovel) {
             throw { code: 404, message: 'VN Not Found' };
         }
-        await VisualNovel.deleteOne({code: code});
+        await visualNovelRepository.drop(code);
+        return { code: 200 };
     } catch (err) {
         throw err;
     }
@@ -84,7 +77,7 @@ const convertFormFormatToDBFormat = (body) => {
             en_link: [],
             id_link: []
         };
-        Object.values(body.vnDataUrls).forEach(urlData => {
+        Object.values(body.downloadUrl).forEach(urlData => {
             const language = urlData.language;
             delete urlData['language'];
             if(language == 'JP') {

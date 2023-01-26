@@ -47,7 +47,7 @@ const VisualNovel = mongoose.Schema({
     image: {
         type: String
     },
-    download: downloadLinkSchema
+    downloadUrl: downloadLinkSchema
 }, {
     timestamps: true
 });

@@ -1,15 +1,13 @@
-import VisualNovel from "../models/VisualNovel.js";
 import VisualNovelService from "../services/visualNovelService.js";
 import { error, success } from "../utils/responseHelper.js";
 
 // Show Visual Novel List
 export const list = async (req, res) => {
     try {
-        const visualNovels = await VisualNovelService.list();
+        const visualNovels = await VisualNovelService.list(req.query.page);
         if(visualNovels.length === 0) {
             return error(res, 200, 'Empty Data');
         }
-        console.log(visualNovels);
         return success(res, 200, 'Fetch Visual Novel List Success', visualNovels);
     } catch (err) {
         console.error(err);
