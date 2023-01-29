@@ -8,7 +8,7 @@ export const list = async (req, res) => {
         if(visualNovels.length === 0) {
             return error(res, 200, 'Empty Data');
         }
-        return success(res, 200, 'Fetch Visual Novel List Success', visualNovels);
+        return success(res, 200, 'Fetch Visual Novel List Success', visualNovels.data);
     } catch (err) {
         console.error(err);
         return error(res, 500, 'Fetch Visual Novel List Failed', err);

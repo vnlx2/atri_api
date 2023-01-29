@@ -19,7 +19,7 @@ const store = async (body) => {
 const list = async (page) => {
     try {
         const visualNovels = await visualNovelRepository.list(page);
-        return { code: 200, visualNovels };
+        return { code: 200, data: visualNovels };
     }
     catch (err) {
         throw err;
