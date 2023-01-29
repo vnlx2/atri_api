@@ -43,6 +43,21 @@ const detail = async (code) => {
     }
 }
 
+const getTitle = async (code) => {
+    try {
+        const visualNovel = await visualNovelRepository.getTitle(code);
+        if (!visualNovel) {
+            throw { name: 'VN_NOT_FOUND', message: "Not Found" };
+        }
+        if (visualNovel["downloadUrl"] != undefined) {
+            throw { name: 'VN_REGISTERED', message: "This visual novel already has a download link" };
+        }
+        return visualNovel.title;
+    } catch (err) {
+        throw err;
+    }
+}
+
 const update = async(body) => {
     try {
         const visualNovel = await visualNovelRepository.find(body.code)
@@ -134,6 +149,7 @@ export default {
     list,
     store, 
     detail,
+    getTitle,
     update,
     drop,
 };

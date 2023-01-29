@@ -29,6 +29,24 @@ export const detail = async (req, res) => {
     }
 }
 
+// Check VNDB Code is valid or vn downloader is exists
+export const getTitle = async (req, res) => {
+    try {
+        const response = await VisualNovelService.getTitle(req.query.code);
+        return success(res, 200, 'Fetch Visual Novel Title Success', response);
+    } catch (err)
+    {
+        console.error(err);
+        if(err.name === 'VN_NOT_FOUND') {
+            return error(res, 404, err.name, err.message, err);
+        }
+        else if(err.name === 'VN_REGISTERED') {
+            return error(res, 400, err.name, err.message, err);
+        }
+        return error(res, 500, 'fetch_failed','Fetch Visual Novel Data Failed', err);
+    }
+}
+
 // Store Visual Novel
 export const store = async (req, res) => {
     try {

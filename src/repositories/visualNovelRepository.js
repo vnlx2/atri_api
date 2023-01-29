@@ -25,6 +25,18 @@ const find = async (code) => {
     }
 }
 
+const getTitle = async (code) => {
+    try
+    {
+        return await VisualNovel.findOne({ code: code })
+            .select('title downloadUrl');
+    }
+    catch (err) 
+    {
+        throw err;
+    }
+}
+
 const update = async (code, data, mode = 'store') => {
     try
     {
@@ -50,5 +62,5 @@ const drop = async (code) => {
 }
 
 export default {
-    list, find, update, drop
+    list, find, update, drop, getTitle
 }
