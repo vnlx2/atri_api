@@ -6,7 +6,7 @@ const list = async (page = 1) => {
         const response = await VisualNovel.find({ downloadUrl: { $exists: true } })
             .select('code title -_id').sort({'code' : 1}).limit(25).skip(25 * (page - 1))
             .collation({ locale: "en_US", numericOrdering: true });
-        const count = Math.round(await VisualNovel.countDocuments({ downloadUrl: { $exists: true } }) / 25) + 1;
+        const count = Math.ceil(await VisualNovel.countDocuments({ downloadUrl: { $exists: true } }) / 25);
         return {
             list: response,
             total: count
