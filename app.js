@@ -12,7 +12,7 @@ const app = express();
 const port = 8016;
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", process.env.APP_DEBUG ? 
+    res.header("Access-Control-Allow-Origin", process.env.APP_DEBUG == "true" ? 
     'http://localhost:5173' : 'https://atri-bot.vnlx.org'); 
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
