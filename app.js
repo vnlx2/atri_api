@@ -30,5 +30,5 @@ app.use('/api/v1/fantl', fanTLTeamRouter);
 
 
 app.listen(port, () => {
-    console.log('ATRI Web Started');
+    console.log('ATRI Web API Started');
 });
