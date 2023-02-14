@@ -1,5 +1,5 @@
 import Express from "express";
-import { all, drop, show, store, update } from "../controllers/userController.js";
+import { all, checkUsernameExists, drop, show, store, update } from "../controllers/userController.js";
 import checkRolesMiddleware from "../middlewares/checkRoles.js";
 const router = Express.Router();
 
@@ -7,6 +7,7 @@ const router = Express.Router();
 router.use(checkRolesMiddleware(['admin', 'superAdmin']));
 router.get('/all', all);
 router.get('/show', show);
+router.post('/check-username', checkUsernameExists);
 router.post('/store', store);
 router.put('/update', update);
 router.delete('/delete', drop);

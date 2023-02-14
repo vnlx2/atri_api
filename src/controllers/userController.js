@@ -27,6 +27,19 @@ export const show = async (req, res) => {
     }
 }
 
+// Check username exists
+export const checkUsernameExists = async (req, res) => {
+    try {
+        const isUsernameExists = await userService.checkUsernameExists(req.body.username);
+        return success(res, 200, "Check username exists success", isUsernameExists);
+    } catch (err) {
+        if(err['code'] !== undefined) {
+            return error(res, err.code, err.name, err.message, err);
+        }
+        error(res, 500, 'FETCH_FAILED', 'Fetch User Data Failed', err);
+    }
+}
+
 // Store User
 export const store = async (req, res) => {
     try {

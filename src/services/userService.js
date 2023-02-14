@@ -24,6 +24,15 @@ const detail = async (id) => {
     }
 }
 
+// Check username exists
+const checkUsernameExists = async (username) => {
+    try {
+        return await userRepository.isUsernameExists(username);
+    } catch (err) {
+        throw err;
+    }
+}
+
 // Store user
 const store = async (body) => {
     try {
@@ -83,6 +92,7 @@ const drop = async (id) => {
 export default {
     all, 
     detail,
+    checkUsernameExists,
     store,
     update,
     drop
