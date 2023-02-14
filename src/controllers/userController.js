@@ -69,7 +69,7 @@ export const update = async (req, res) => {
 // Delete User
 export const drop = async (req, res) => {
     try {
-        await userService.drop(req.body.id);
+        await userService.drop(req.query.id);
         success(res, 200, "Delete Users Data Success");
     } catch (err) {
         if(err['code'] !== undefined) {
