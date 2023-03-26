@@ -4,7 +4,7 @@ import visualNovelRepository from "../repositories/visualNovelRepository.js";
 // Store Visual Novel
 const store = async (body) => {
     try {
-        const visualNovel = await visualNovelRepository.find(body.code)
+        const visualNovel = await visualNovelRepository.findOne(body.code)
         if(visualNovel) {
             throw { code: 400, message: 'VN Download Link was exists' };
         }
@@ -16,9 +16,9 @@ const store = async (body) => {
     }
 };
 
-const list = async (page) => {
+const list = async (keyword, page) => {
     try {
-        const visualNovels = await visualNovelRepository.list(page);
+        const visualNovels = await visualNovelRepository.list(keyword, page);
         return { code: 200, data: visualNovels };
     }
     catch (err) {
@@ -28,7 +28,7 @@ const list = async (page) => {
 
 const detail = async (code) => {
     try {
-        const visualNovel = await visualNovelRepository.find(code)
+        const visualNovel = await visualNovelRepository.findOne(code)
         if(!visualNovel) {
             throw { code: 404, message: 'Not Found' };
         }
@@ -60,7 +60,7 @@ const getTitle = async (code) => {
 
 const update = async(body) => {
     try {
-        const visualNovel = await visualNovelRepository.find(body.code)
+        const visualNovel = await visualNovelRepository.findOne(body.code)
         if(!visualNovel) {
             throw { code: 404, message: 'VN Not Found' };
         }
@@ -74,7 +74,7 @@ const update = async(body) => {
 
 const drop = async(code) => {
     try {
-        const visualNovel = await visualNovelRepository.find(code);
+        const visualNovel = await visualNovelRepository.findOne(code);
         if(!visualNovel) {
             throw { code: 404, message: 'VN Not Found' };
         }

@@ -4,7 +4,7 @@ import { error, success } from "../utils/responseHelper.js";
 // Show Visual Novel List
 export const list = async (req, res) => {
     try {
-        const visualNovels = await VisualNovelService.list(req.query.page);
+        const visualNovels = await VisualNovelService.list(req.query.keyword, req.query.page);
         if(visualNovels.length === 0) {
             return error(res, 200, 'Empty Data');
         }
