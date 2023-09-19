@@ -1,26 +1,20 @@
-console.log("Try npm run lint/fix!");
+import cors from "cors";
+import { config } from "dotenv";
+import bodyParser from "body-parser";
+import express, { Express } from "express";
 
-const longString = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut aliquet diam.';
+config();
 
-const trailing = 'Semicolon'
+const app: Express = express();
+const port = process.env.PORT;
 
-			const why={am:'I tabbed?'};
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const iWish = "I didn't have a trailing space..."; 
+// app.use('/', routers);
 
-const sicilian = true;;
-
-const vizzini = (!!sicilian) ? !!!sicilian : sicilian;
-
-const re = /foo   bar/;
-
-export function doSomeStuff(withThis: string, andThat: string, andThose: string[]) {
-    //function on one line
-    if(!Boolean(andThose.length)) {return false;}
-    console.log(withThis);
-    console.log(andThat);
-    console.dir(andThose);
-    console.log(longString, trailing, why, iWish, vizzini, re);
-    return;
-}
-// TODO: more examples
+app.listen(port, () => {
+    console.info(`ATRI API Version ${process.env.VERSION}`);
+    console.info(`Server is running on port ${port}`);
+});
