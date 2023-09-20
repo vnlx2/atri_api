@@ -15,7 +15,7 @@ export const success = (
   res: Response,
   httpCode: number,
   message: string,
-  data = []
+  data: Array<unknown>
 ) => {
   return res.status(httpCode).json({
     status: true,
@@ -29,7 +29,8 @@ export const error = (
   httpCode: number,
   errorCode: string,
   message: string,
-  errors?: Array<FieldValidationError> | Error
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  errors?: Array<FieldValidationError> | Error | any
 ) => {
   const body: ErrorBody = {
     success: false,
@@ -46,7 +47,7 @@ export const error = (
         message,
       };
     });
-  } else if (['development', 'test'].includes(process.env.NODE_ENV!)) {
+  } else if (process.env.APP_DEBUG!) {
     body.errors = {
       message: errors?.message,
       stacktrace: errors?.stack,
