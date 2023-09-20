@@ -3,11 +3,13 @@ import { config } from "dotenv";
 import bodyParser from "body-parser";
 import express, { Express } from "express";
 import { routers } from "./routes";
+import { db } from "./configs/database";
 
 config();
 
 const app: Express = express();
 const port = process.env.PORT;
+db();
 
 app.use(cors());
 app.use(bodyParser.json());

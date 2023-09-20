@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import authentication from '../middlewares/authentication';
+import VisualNovelController from '../controllers/visualNovelController';
 
 export const routers = Router();
 
@@ -27,8 +28,8 @@ routers.delete('/user/delete/:id', () => {});
 /**
  * Visual Novel Routes
  */
-routers.use(['/visualnovels', '/visualnovel'], [authentication()]);
-routers.get('/visualnovels', () => {});
+// routers.use(['/visualnovels', '/visualnovel'], [authentication()]);
+routers.get('/visualnovels', VisualNovelController.list);
 routers.get('/visualnovel/:id', () => {});
 routers.post('/visualnovel/store', () => {});
 routers.put('/visualnovel/update', () => {});
