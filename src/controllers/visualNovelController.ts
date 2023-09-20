@@ -1,24 +1,31 @@
 import {Request, Response} from 'express';
+import {error, success} from '../utils/responseHelper';
+import VisualNovelService from '../services/visualNovelService';
 
 export default class VisualNovelController {
   public static async list(req: Request, res: Response) {
     try {
       const visualNovels = await VisualNovelService.list(
-        req.query.keyword,
-        req.query.page
+        String(req.query.keyword ?? ''),
+        Number(req.query.page ?? 1)
       );
-      if (visualNovels.length === 0) {
-        return error(res, 200, 'Empty Data');
+      if (!visualNovels) {
+        return success(res, 200, 'Empty Data', []);
       }
       return success(
         res,
         200,
         'Fetch Visual Novel List Success',
-        visualNovels.data
+        visualNovels.list
       );
-    } catch (err) {
-      console.error(err);
-      return error(res, 500, 'Fetch Visual Novel List Failed', err);
+    } catch (err: unknown) {
+      return error(
+        res,
+        500,
+        'INTERNAL_SERVER_ERROR',
+        'Fetch Visual Novel List Failed',
+        err
+      );
     }
   }
 }
