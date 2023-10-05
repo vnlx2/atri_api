@@ -4,23 +4,34 @@ import VisualNovelController from '../controllers/visualNovelController';
 import Authentication from '../controllers/authController';
 import {checkSchema} from 'express-validator';
 import loginRequest from '../requests/loginRequest';
+import UserController from '../controllers/userController';
 
 export const routers = Router();
+
+// Implement Authentication Middleware
+routers.use(
+  [
+    '/logout',
+    '/users',
+    '/user',
+    '/visualnovels',
+    '/visualnovel',
+    '/birthday',
+    '/birthdays',
+  ],
+  authentication()
+);
 
 /**
  * Authentication Routes
  */
-routers.use('/logout', authentication());
 routers.post('/login', checkSchema(loginRequest), Authentication.login);
 routers.post('/logout', () => {});
 
 /**
  * User Routes
  */
-routers.use(['/users', '/user'], [authentication()]);
-routers.get('/users', (req, res) => {
-  res.send('ok');
-});
+routers.get('/users', UserController.all);
 routers.get('/user/:id', (req, res) => {
   res.send('ok2');
 });
