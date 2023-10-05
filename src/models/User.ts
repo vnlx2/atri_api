@@ -1,14 +1,15 @@
-import {Schema, model} from 'mongoose';
+import {Document, Schema, model} from 'mongoose';
 
 export interface IUser {
+  _id?: string;
+  id?: string;
   username: string;
   password?: string;
   role: string;
   timestamps?: string;
 }
 
-// Schema
-const UserSchema = new Schema(
+const User = new Schema(
   {
     username: {
       type: String,
@@ -29,4 +30,8 @@ const UserSchema = new Schema(
   }
 );
 
+<<<<<<< HEAD
 export const UserModel = () => model('users', UserSchema);
+=======
+export const UserModel = () => model<IUser & Document>('users', User);
+>>>>>>> 1622f31

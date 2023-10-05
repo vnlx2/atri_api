@@ -29,7 +29,6 @@ export const errorResponse = (
   httpCode: number,
   errorCode: string,
   message: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   errors?: Array<FieldValidationError> | Error | any
 ) => {
   const body: ErrorBody = {

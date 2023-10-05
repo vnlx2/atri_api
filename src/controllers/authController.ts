@@ -40,7 +40,7 @@ export default class Authentication {
 
       if (error instanceof Error) {
         switch (error.message) {
-          case 'USER_NOT_FOUND': 
+          case 'USER_NOT_FOUND':
             errorCode = 'USER_NOT_FOUND';
             message = 'User Not Found';
             break;

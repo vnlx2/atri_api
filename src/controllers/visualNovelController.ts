@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import {error, success} from '../utils/responseHelper';
+import {errorResponse, successResponse} from '../utils/responseHelper';
 import VisualNovelService from '../services/visualNovelService';
 
 export default class VisualNovelController {
@@ -10,16 +10,16 @@ export default class VisualNovelController {
         Number(req.query.page ?? 1)
       );
       if (!visualNovels) {
-        return success(res, 200, 'Empty Data', []);
+        return successResponse(res, 200, 'Empty Data', []);
       }
-      return success(
+      return successResponse(
         res,
         200,
         'Fetch Visual Novel List Success',
         visualNovels.list
       );
     } catch (err: unknown) {
-      return error(
+      return errorResponse(
         res,
         500,
         'INTERNAL_SERVER_ERROR',

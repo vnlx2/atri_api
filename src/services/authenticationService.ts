@@ -1,7 +1,7 @@
 import {compare} from 'bcrypt';
-import UserRepository from '../repositories/userRepository';
 import {config} from 'dotenv';
 import {sign} from 'jsonwebtoken';
+import UserRepository from '../repositories/userRepository';
 
 config();
 
