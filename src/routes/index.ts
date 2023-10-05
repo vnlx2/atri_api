@@ -1,6 +1,9 @@
 import {Router} from 'express';
 import authentication from '../middlewares/authentication';
 import VisualNovelController from '../controllers/visualNovelController';
+import Authentication from '../controllers/authController';
+import {checkSchema} from 'express-validator';
+import loginRequest from '../requests/loginRequest';
 
 export const routers = Router();
 
@@ -8,7 +11,7 @@ export const routers = Router();
  * Authentication Routes
  */
 routers.use('/logout', authentication());
-routers.post('/login', () => {});
+routers.post('/login', checkSchema(loginRequest), Authentication.login);
 routers.post('/logout', () => {});
 
 /**
