@@ -11,11 +11,11 @@ type ErrorBody = {
   errors?: object;
 };
 
-export const success = (
+export const successResponse = (
   res: Response,
   httpCode: number,
   message: string,
-  data: Array<unknown>
+  data: Array<unknown> | Object
 ) => {
   return res.status(httpCode).json({
     status: true,
@@ -24,7 +24,7 @@ export const success = (
   });
 };
 
-export const error = (
+export const errorResponse = (
   res: Response,
   httpCode: number,
   errorCode: string,
