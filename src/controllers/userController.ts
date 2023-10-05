@@ -16,13 +16,34 @@ export default class UserController {
       if (users.length === 0) {
         return successResponse(res, 200, 'Empty Users', []);
       }
-      return successResponse(res, 200, 'Fetch user success', users);
+      return successResponse(res, 200, 'Fetch users success', users);
     } catch (error) {
       return errorResponse(
         res,
         500,
         'INTERNAL_SERVER_ERROR',
         'Internal Server Error'
+      );
+    }
+  }
+
+  /**
+   * Get User Detai;
+   *
+   * @param req Request
+   * @param res Response
+   * @returns Response
+   */
+  public static async detail(req: Request, res: Response) {
+    try {
+      const user = await UserService.getUserById(req.params.id);
+      return successResponse(res, 200, 'Fetch user success', user);
+    } catch (error) {
+      return errorResponse(
+        res,
+        error instanceof Error ? 404 : 500,
+        error instanceof Error ? 'USER_NOT_FOUND' : 'INTERNAL_SERVER_ERROR',
+        error instanceof Error ? 'User not found' : 'Internal Server Error'
       );
     }
   }

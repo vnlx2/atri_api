@@ -32,9 +32,7 @@ routers.post('/logout', () => {});
  * User Routes
  */
 routers.get('/users', UserController.all);
-routers.get('/user/:id', (req, res) => {
-  res.send('ok2');
-});
+routers.get('/user/:id', UserController.detail);
 routers.post('/user/store', () => {});
 routers.put('/user/update', () => {});
 routers.delete('/user/delete/:id', () => {});

@@ -18,6 +18,25 @@ export default class UserService {
       };
     });
   }
+
+  /**
+   * Get user detail by id
+   *
+   * @param id string
+   * @return Promise<IUser>
+   */
+  public static async getUserById(id: string): Promise<IUser> {
+    const user = await UserRepository.findById(id);
+    if (!user) {
+      throw new Error('USER_NOT_FOUND');
+    }
+    const idStr = user._id.toString();
+    delete user._id;
+    return {
+      id: idStr,
+      ...user,
+    };
+  }
 }
 
 // import bcrypt from 'bcrypt';

@@ -35,13 +35,23 @@ export default class UserRepository {
   /**
    * Get All Users
    *
-   * @returns Promise<IUser[]>
+   * @returns
    */
   public static async getAllUsers() {
     return await this.userModel
       .find()
       .select('-__v -createdAt -updatedAt')
       .lean();
+  }
+
+  /**
+   * Find by Id
+   *
+   * @param id string
+   * @returns
+   */
+  public static async findById(id: string) {
+    return await this.userModel.findById(id).select('-__v').lean();
   }
 }
 
