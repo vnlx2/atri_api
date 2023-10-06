@@ -1,3 +1,4 @@
+import {hash} from 'bcrypt';
 import {IUser} from '../models/User';
 import UserRepository from '../repositories/userRepository';
 
@@ -7,7 +8,7 @@ export default class UserService {
    *
    * @return Promise<IUser>
    */
-  public static async getAllUsers(): Promise<IUser[]> {
+  public async getAllUsers(): Promise<IUser[]> {
     const users = await UserRepository.getAllUsers();
     return users.map(user => {
       const id = user._id!.toString();
@@ -25,7 +26,7 @@ export default class UserService {
    * @param id string
    * @return Promise<IUser>
    */
-  public static async getUserById(id: string): Promise<IUser> {
+  public async getUserById(id: string): Promise<IUser> {
     const user = await UserRepository.findById(id);
     if (!user) {
       throw new Error('USER_NOT_FOUND');
@@ -36,6 +37,20 @@ export default class UserService {
       id: idStr,
       ...user,
     };
+  }
+
+  /**
+   * Store User
+   *
+   * @param body Object
+   * @returns Promise<void>
+   */
+  public async storeUser(body: IUser): Promise<void> {
+    await UserRepository.store({
+      username: body.username,
+      password: await hash(body.password!, 10),
+      role: body['role'],
+    });
   }
 }
 

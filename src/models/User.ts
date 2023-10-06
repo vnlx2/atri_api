@@ -30,8 +30,4 @@ const User = new Schema(
   }
 );
 
-<<<<<<< HEAD
-export const UserModel = () => model('users', UserSchema);
-=======
 export const UserModel = () => model<IUser & Document>('users', User);
->>>>>>> 1622f31

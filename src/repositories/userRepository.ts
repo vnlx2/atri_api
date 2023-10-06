@@ -3,12 +3,12 @@ import {UserModel, IUser} from '../models/User';
 export default class UserRepository {
   private static readonly userModel = UserModel();
   /**
-   * Check Username not exists
+   * Check Username exists
    *
    * @param username string
    * @returns boolean
    */
-  public static async isUsernameNotExists(username: string): Promise<boolean> {
+  public static async isUsernameExists(username: string): Promise<boolean> {
     const user = await this.userModel
       .findOne({username: username})
       .select('username');
@@ -52,6 +52,16 @@ export default class UserRepository {
    */
   public static async findById(id: string) {
     return await this.userModel.findById(id).select('-__v').lean();
+  }
+
+  /**
+   * Store User
+   *
+   * @param body IUser
+   * @returns Promise<void>
+   */
+  public static async store(body: IUser) {
+    await this.userModel.create(body);
   }
 }
 

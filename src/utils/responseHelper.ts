@@ -15,7 +15,7 @@ export const successResponse = (
   res: Response,
   httpCode: number,
   message: string,
-  data: Array<unknown> | Object
+  data?: Array<unknown> | Object
 ) => {
   return res.status(httpCode).json({
     status: true,

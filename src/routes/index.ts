@@ -5,6 +5,7 @@ import Authentication from '../controllers/authController';
 import {checkSchema} from 'express-validator';
 import loginRequest from '../requests/loginRequest';
 import UserController from '../controllers/userController';
+import userBodyRequest from '../requests/userBodyRequest';
 
 export const routers = Router();
 
@@ -33,7 +34,7 @@ routers.post('/logout', () => {});
  */
 routers.get('/users', UserController.all);
 routers.get('/user/:id', UserController.detail);
-routers.post('/user/store', () => {});
+routers.post('/user/store', checkSchema(userBodyRequest), UserController.store);
 routers.put('/user/update', () => {});
 routers.delete('/user/delete/:id', () => {});
 
