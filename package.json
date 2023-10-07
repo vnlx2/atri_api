@@ -22,6 +22,7 @@
     "express-validator": "^7.0.1",
     "gts": "^5.0.1",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "mongoose": "^6.6.5",
     "mongoose-fuzzy-searching": "^2.0.2",

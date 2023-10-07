@@ -14,7 +14,16 @@ class RedisService {
     });
   }
 
-  async set(tagName: string, data: object | Array<object>, expired?: number) {
+  private checkJsonString(data: string) {
+    try {
+      JSON.parse(data);
+    } catch (error) {
+      return false;
+    }
+    return true;
+  }
+
+  async set(tagName: string, data: string, expired?: number) {
     await this._client.connect();
 
     if (expired) {
@@ -25,14 +34,13 @@ class RedisService {
     await this._client.disconnect();
   }
 
-  async get(tagName: string): Promise<any> {
+  async get(tagName: string): Promise<Object | string | void> {
     await this._client.connect();
     const data = await this._client.get(tagName);
     await this._client.disconnect();
     if (typeof data === 'string') {
-      return JSON.parse(data);
+      return this.checkJsonString(data) ? JSON.parse(data) : data;
     }
-    return data;
   }
 
   async del(tagName: string) {

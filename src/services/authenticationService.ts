@@ -6,6 +6,15 @@ import redisService from './redisService';
 
 config();
 
+export interface IAuthentication {
+  iss: string;
+  sub: string;
+  role: string;
+  iat: number;
+  exp: number;
+  aud: string;
+}
+
 export default class AuthenticationService {
   private static readonly JWT_EXPIRED = 60 * 60;
 
@@ -49,6 +58,7 @@ export default class AuthenticationService {
 
     const payload = this.generateJWT(user.username, user.role);
     const token = sign(payload, process.env.TOKEN_KEY!);
+    await redisService.set(`token_${user.id}`, token, this.JWT_EXPIRED);
 
     return token;
   }
@@ -56,10 +66,13 @@ export default class AuthenticationService {
   /**
    * Logout
    *
+   * @param username string
    * @param token string
    * @returns Promise<void>
    */
-  public static async Logout(token: string): Promise<void> {
-    await redisService.set(`blacklist-${token}`, {}, this.JWT_EXPIRED);
+  public static async Logout(username: string, token: string): Promise<void> {
+    const user = await UserRepository.findByUsername(username, true);
+    await redisService.del(`token_${user?.username}`);
+    await redisService.set(`blacklist-${token}`, '', this.JWT_EXPIRED);
   }
 }
