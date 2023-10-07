@@ -63,6 +63,30 @@ export default class Authentication {
       );
     }
   }
+
+  /**
+   * Logout
+   *
+   * @param req Request
+   * @param res Response
+   * @returns Response
+   */
+  public static async logout(req: Request, res: Response) {
+    try {
+      await AuthenticationService.Logout(
+        req.headers.authorization!.split(' ')[1]
+      );
+      return successResponse(res, 200, 'Logout Success');
+    } catch (error) {
+      return errorResponse(
+        res,
+        error instanceof Error ? 400 : 500,
+        'INTERNAL_SERVER_ERROR',
+        'Internal Server Error',
+        error
+      );
+    }
+  }
 }
 
 // import User from "../models/User.js";

@@ -2,6 +2,7 @@ import {compare} from 'bcrypt';
 import {config} from 'dotenv';
 import {sign} from 'jsonwebtoken';
 import UserRepository from '../repositories/userRepository';
+import redisService from './redisService';
 
 config();
 
@@ -50,5 +51,15 @@ export default class AuthenticationService {
     const token = sign(payload, process.env.TOKEN_KEY!);
 
     return token;
+  }
+
+  /**
+   * Logout
+   *
+   * @param token string
+   * @returns Promise<void>
+   */
+  public static async Logout(token: string): Promise<void> {
+    await redisService.set(`blacklist-${token}`, {}, this.JWT_EXPIRED);
   }
 }

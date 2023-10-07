@@ -1,6 +1,7 @@
 import {config} from 'dotenv';
 import {NextFunction, Request, Response} from 'express';
 import {verify} from 'jsonwebtoken';
+import redisService from '../services/redisService';
 
 config();
 
@@ -22,6 +23,9 @@ export default () => {
       const validation = verify(token, process.env.TOKEN_KEY!);
       if (!validation) {
         throw new Error('INVALID_TOKEN');
+      }
+      if (await redisService.get(`blacklist-${token}`)) {
+        throw new Error('TOKEN_BLACKLISTED');
       }
       return next();
     } catch (error) {

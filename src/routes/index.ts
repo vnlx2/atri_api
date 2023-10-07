@@ -27,7 +27,7 @@ routers.use(
  * Authentication Routes
  */
 routers.post('/login', checkSchema(loginRequest), Authentication.login);
-routers.post('/logout', () => {});
+routers.post('/logout', Authentication.logout);
 
 /**
  * User Routes
