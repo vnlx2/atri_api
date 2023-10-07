@@ -35,13 +35,16 @@ routers.post('/logout', () => {});
 routers.get('/users', UserController.all);
 routers.get('/user/:id', UserController.detail);
 routers.post('/user/store', checkSchema(userBodyRequest), UserController.store);
-routers.put('/user/update', () => {});
-routers.delete('/user/delete/:id', () => {});
+routers.put(
+  '/user/update',
+  checkSchema(userBodyRequest),
+  UserController.update
+);
+routers.delete('/user/delete/:id', UserController.drop);
 
 /**
  * Visual Novel Routes
  */
-// routers.use(['/visualnovels', '/visualnovel'], [authentication()]);
 routers.get('/visualnovels', VisualNovelController.list);
 routers.get('/visualnovel/:id', () => {});
 routers.post('/visualnovel/store', () => {});
