@@ -2,6 +2,7 @@ import {config} from 'dotenv';
 import {NextFunction, Request, Response} from 'express';
 import {verify} from 'jsonwebtoken';
 import redisService from '../services/redisService';
+import {errorResponse} from '../utils/responseHelper';
 
 config();
 
@@ -25,15 +26,16 @@ export default () => {
         throw new Error('INVALID_TOKEN');
       }
       if (await redisService.get(`blacklist-${token}`)) {
-        throw new Error('TOKEN_BLACKLISTED');
+        throw new Error('TOKEN_EXPIRED');
       }
       return next();
     } catch (error) {
-      return res.status(401).json({
-        status: false,
-        errorCode: error instanceof Error ? error.message : 'UNAUTHORIZED',
-        message: 'Unauthorized.',
-      });
+      return errorResponse(
+        res,
+        401,
+        error instanceof Error ? error.message : 'UNAUTHORIZED',
+        error
+      );
     }
   };
 };

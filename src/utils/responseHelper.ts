@@ -11,6 +11,30 @@ type ErrorBody = {
   errors?: object;
 };
 
+const generateMessage = (errorCode: string) => {
+  switch (errorCode) {
+    case 'VALIDATION_ERROR':
+      return 'Validation Error';
+    case 'TOKEN_NOT_FOUND':
+      return 'Token Not Found';
+    case 'INVALID_TOKEN':
+      return 'Invalid Token';
+    case 'TOKEN_EXPIRED':
+    case 'jwt expired':
+      return 'Token Expired';
+    case 'USER_NOT_FOUND':
+      return 'User Not Found';
+    case 'INVALID_PASSWORD':
+      return 'Invalid Password';
+    case 'INVALID_ROLE':
+      return 'Invalid Role';
+    case 'VN_NOT_FOUND':
+      return 'Visual Novel Not Found';
+    default:
+      return 'Internal Server Error';
+  }
+};
+
 export const successResponse = (
   res: Response,
   httpCode: number,
@@ -28,14 +52,13 @@ export const errorResponse = (
   res: Response,
   httpCode: number,
   errorCode: string,
-  message: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   errors?: Array<ValidationError> | Error | any
 ) => {
   const body: ErrorBody = {
     success: false,
     errorCode: errorCode,
-    message: message,
+    message: generateMessage(errorCode),
   };
 
   if (errors instanceof Array) {

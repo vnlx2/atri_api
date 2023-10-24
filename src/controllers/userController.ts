@@ -21,12 +21,7 @@ export default class UserController {
       }
       return successResponse(res, 200, 'Fetch users success', users);
     } catch (error) {
-      return errorResponse(
-        res,
-        500,
-        'INTERNAL_SERVER_ERROR',
-        'Internal Server Error'
-      );
+      return errorResponse(res, 500, 'INTERNAL_SERVER_ERROR');
     }
   }
 
@@ -62,25 +57,13 @@ export default class UserController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return errorResponse(
-          res,
-          400,
-          'VALIDATION_ERROR',
-          'Input Validation Error',
-          errors.array()
-        );
+        return errorResponse(res, 400, 'VALIDATION_ERROR', errors.array());
       }
 
       await UserController.userService.storeUser(req.body);
       return successResponse(res, 201, 'Store user success');
     } catch (error) {
-      return errorResponse(
-        res,
-        500,
-        'INTERNAL_SERVER_ERROR',
-        'Internal Server Error',
-        error
-      );
+      return errorResponse(res, 500, 'INTERNAL_SERVER_ERROR', error);
     }
   }
 
@@ -95,25 +78,13 @@ export default class UserController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return errorResponse(
-          res,
-          400,
-          'VALIDATION_ERROR',
-          'Input Validation Error',
-          errors.array()
-        );
+        return errorResponse(res, 400, 'VALIDATION_ERROR', errors.array());
       }
 
       await UserController.userService.updateUser(req.body);
       return successResponse(res, 200, 'Update user success');
     } catch (error) {
-      return errorResponse(
-        res,
-        500,
-        'INTERNAL_SERVER_ERROR',
-        'Internal Server Error',
-        error
-      );
+      return errorResponse(res, 500, 'INTERNAL_SERVER_ERROR', error);
     }
   }
 
@@ -132,8 +103,7 @@ export default class UserController {
       return errorResponse(
         res,
         error instanceof Error ? 404 : 500,
-        error instanceof Error ? 'USER_NOT_FOUND' : 'INTERNAL_SERVER_ERROR',
-        error instanceof Error ? 'User not found' : 'Internal Server Error'
+        error instanceof Error ? 'USER_NOT_FOUND' : 'INTERNAL_SERVER_ERROR'
       );
     }
   }

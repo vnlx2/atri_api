@@ -100,6 +100,10 @@ export default class VisualNovelService {
    * @returns Promise<any>
    */
   public static async delete(code: string) {
+    const visualNovel = await VisualNovelRepository.detail(code);
+    if (!visualNovel) {
+      throw new Error('VN_NOT_FOUND');
+    }
     return await VisualNovelRepository.delete(code);
   }
 }
