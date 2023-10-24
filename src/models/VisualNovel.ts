@@ -1,4 +1,6 @@
-import {Schema, model} from 'mongoose';
+import {Document, Schema, model} from 'mongoose';
+import {IVisualNovel} from '../interfaces/visualNovel';
+
 // Schema
 const linkSchema = new Schema({
   provider: {
@@ -6,6 +8,9 @@ const linkSchema = new Schema({
     required: true,
   },
   type: {
+    type: String,
+  },
+  platform: {
     type: String,
   },
   url: {
@@ -54,4 +59,7 @@ export const VisualNovel = new Schema(
   }
 );
 
-export const VisualNovelModel = () => model('vndbs', VisualNovel);
+export const VisualNovelModel = model<IVisualNovel & Document>(
+  'vndbs',
+  VisualNovel
+);

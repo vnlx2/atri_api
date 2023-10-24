@@ -1,6 +1,6 @@
 import {config} from 'dotenv';
 import {Response} from 'express';
-import {FieldValidationError} from 'express-validator';
+import {ValidationError} from 'express-validator';
 
 config();
 
@@ -29,7 +29,8 @@ export const errorResponse = (
   httpCode: number,
   errorCode: string,
   message: string,
-  errors?: Array<FieldValidationError> | Error | any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  errors?: Array<ValidationError> | Error | any
 ) => {
   const body: ErrorBody = {
     success: false,
@@ -38,7 +39,7 @@ export const errorResponse = (
   };
 
   if (errors instanceof Array) {
-    body.errors = errors.map((error: FieldValidationError) => {
+    body.errors = errors.map((error: ValidationError) => {
       const field = error.type === 'field' ? error.path : '';
       const message = error.msg;
       return {

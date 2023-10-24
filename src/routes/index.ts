@@ -6,6 +6,7 @@ import {checkSchema} from 'express-validator';
 import loginRequest from '../requests/loginRequest';
 import UserController from '../controllers/userController';
 import userBodyRequest from '../requests/userBodyRequest';
+import visualNovelBodyRequest from '../requests/visualNovelBodyRequest';
 
 export const routers = Router();
 
@@ -46,10 +47,18 @@ routers.delete('/user/delete/:id', UserController.drop);
  * Visual Novel Routes
  */
 routers.get('/visualnovels', VisualNovelController.list);
-routers.get('/visualnovel/:id', () => {});
-routers.post('/visualnovel/store', () => {});
-routers.put('/visualnovel/update', () => {});
-routers.delete('/visualnovel/delete/:id', () => {});
+routers.get('/visualnovel/:id', VisualNovelController.detail);
+routers.post(
+  '/visualnovel/store',
+  checkSchema(visualNovelBodyRequest),
+  VisualNovelController.store
+);
+routers.put(
+  '/visualnovel/update',
+  checkSchema(visualNovelBodyRequest),
+  VisualNovelController.update
+);
+routers.delete('/visualnovel/delete/:id', VisualNovelController.delete);
 
 /**
  * Birthday Routes
