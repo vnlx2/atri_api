@@ -13,6 +13,8 @@ type ErrorBody = {
 
 const generateMessage = (errorCode: string) => {
   switch (errorCode) {
+    case 'UNAUTHORIZED':
+      return 'Unauthorized';
     case 'VALIDATION_ERROR':
       return 'Validation Error';
     case 'TOKEN_NOT_FOUND':

@@ -9,6 +9,7 @@ import userBodyRequest from '../requests/userBodyRequest';
 import visualNovelBodyRequest from '../requests/visualNovelBodyRequest';
 import BirthdayController from '../controllers/birthdayController';
 import birthdayRequest from '../requests/birthdayRequest';
+import checkRole from '../middlewares/checkRole';
 
 export const routers = Router();
 
@@ -25,6 +26,9 @@ routers.use(
   ],
   authentication()
 );
+
+// Implement Role Access
+routers.use(['/birthday', '/birthdays'], checkRole('superAdmin'));
 
 /**
  * Authentication Routes
