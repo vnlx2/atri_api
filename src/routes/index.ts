@@ -7,6 +7,8 @@ import loginRequest from '../requests/loginRequest';
 import UserController from '../controllers/userController';
 import userBodyRequest from '../requests/userBodyRequest';
 import visualNovelBodyRequest from '../requests/visualNovelBodyRequest';
+import BirthdayController from '../controllers/birthdayController';
+import birthdayRequest from '../requests/birthdayRequest';
 
 export const routers = Router();
 
@@ -63,9 +65,17 @@ routers.delete('/visualnovel/delete/:id', VisualNovelController.delete);
 /**
  * Birthday Routes
  */
-routers.use(['/birthdays', '/birthdays'], [authentication()]);
-routers.get('/birthdays', () => {});
-routers.get('/birthday/:id', () => {});
-routers.post('/birthday/store', () => {});
-routers.put('/birthday/update', () => {});
-routers.delete('/birthday/delete/:id', () => {});
+routers.get('/birthdays', BirthdayController.all);
+routers.get('/birthdays/today', BirthdayController.findForTodayBirthday);
+routers.get('/birthday/:id', BirthdayController.findById);
+routers.post(
+  '/birthday/store',
+  checkSchema(birthdayRequest),
+  BirthdayController.store
+);
+routers.put(
+  '/birthday/update',
+  checkSchema(birthdayRequest),
+  BirthdayController.update
+);
+routers.delete('/birthday/delete/:id', BirthdayController.delete);

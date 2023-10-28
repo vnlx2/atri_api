@@ -30,6 +30,10 @@ const generateMessage = (errorCode: string) => {
       return 'Invalid Role';
     case 'VN_NOT_FOUND':
       return 'Visual Novel Not Found';
+    case 'USER_BIRTHDAY_ALREADY_EXISTS':
+      return "User's Birthday Already Exists";
+    case 'BIRTHDAY_NOT_FOUND':
+      return "User's Birthday Not Found";
     default:
       return 'Internal Server Error';
   }

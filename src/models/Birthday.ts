@@ -1,7 +1,7 @@
-import {Schema, model} from 'mongoose';
+import {Document, Schema, model} from 'mongoose';
+import {IBirthday} from '../interfaces/birthday';
 
-// Schema
-export const Birthdays = new Schema(
+const Birthdays = new Schema(
   {
     _id: {
       type: String,
@@ -21,4 +21,5 @@ export const Birthdays = new Schema(
   }
 );
 
-export const BirthdayModel = () => model('birthdays', Birthdays);
+export const BirthdayModel = () =>
+  model<IBirthday & Document>('birthdays', Birthdays);

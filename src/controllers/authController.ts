@@ -21,13 +21,7 @@ export default class Authentication {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return errorResponse(
-          res,
-          400,
-          'VALIDATION_ERROR',
-          'Input Validation Error',
-          errors.array()
-        );
+        return errorResponse(res, 400, 'VALIDATION_ERROR', errors.array());
       }
 
       const token = await AuthenticationService.Login(
@@ -39,29 +33,10 @@ export default class Authentication {
         accessToken: token,
       });
     } catch (error) {
-      let errorCode, message;
-
-      if (error instanceof Error) {
-        switch (error.message) {
-          case 'USER_NOT_FOUND':
-            errorCode = 'USER_NOT_FOUND';
-            message = 'User Not Found';
-            break;
-          case 'INVALID_PASSWORD':
-            errorCode = 'INVALID_PASSWORD';
-            message = 'Invalid Password';
-            break;
-          default:
-            errorCode = 'INTERNAL_SERVER_ERROR';
-            message = 'Internal Server Error';
-            break;
-        }
-      }
       return errorResponse(
         res,
         error instanceof Error ? 400 : 500,
-        errorCode!,
-        message!,
+        error instanceof Error ? error.message : 'INTERNAL_SERVER_ERROR',
         error
       );
     }
@@ -87,8 +62,7 @@ export default class Authentication {
       return errorResponse(
         res,
         error instanceof Error ? 400 : 500,
-        'INTERNAL_SERVER_ERROR',
-        'Internal Server Error',
+        error instanceof Error ? error.message : 'INTERNAL_SERVER_ERROR',
         error
       );
     }
