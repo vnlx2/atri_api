@@ -53,6 +53,7 @@ routers.delete('/user/delete/:id', UserController.drop);
  * Visual Novel Routes
  */
 routers.get('/visualnovels', VisualNovelController.list);
+routers.get('/visualnovels/dashboard', VisualNovelController.dashboard);
 routers.get('/visualnovel/:id', VisualNovelController.detail);
 routers.post(
   '/visualnovel/store',

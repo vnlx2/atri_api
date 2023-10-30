@@ -11,10 +11,31 @@ export interface IVisualNovelFilter {
   };
 }
 
+export interface IVisualNovelCount {
+  all: Number;
+  withDownloadUrl: Number;
+}
+
 export default class VisualNovelRepository {
   private static readonly VNModel = VisualNovelModel;
   private static readonly BOT_NUMBER_RESULT = 5;
   private static readonly ADMIN_NUMBER_RESULT = 25;
+
+  /**
+   * Count VN at local database
+   *
+   * @returns Promise<IVisualNovelCount>
+   */
+  public static async count() {
+    const count = await VisualNovelModel.countDocuments({});
+    const countWithDownloadUrl = await VisualNovelModel.countDocuments({
+      downloadUrl: {$exists: true},
+    });
+    return {
+      all: count,
+      withDownloadUrl: countWithDownloadUrl,
+    };
+  }
 
   /**
    * Get List of Visual Novels

@@ -15,6 +15,7 @@
   "author": "Moonchild",
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "axios": "^1.6.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",

@@ -8,6 +8,36 @@ import VisualNovelRepository, {
 import {IVisualNovel, VisualNovelOutput} from '../interfaces/visualNovel';
 
 export default class VisualNovelService {
+  private static VNDB_API_V2_ENDPOINT = 'https://api.vndb.org/kana';
+  /**
+   * Get total of vn from vndb
+   *
+   * @returns Promise<number>
+   */
+  private static async getTotalFromVNDB(): Promise<Number> {
+    const result = await fetch(
+      `${VisualNovelService.VNDB_API_V2_ENDPOINT}/stats`
+    )
+      .then(res => res.json())
+      .then(res => res.vn)
+      .catch(err => console.error(err));
+    return result;
+  }
+
+  /**
+   * Get Dashboard Data
+   *
+   * @returns
+   */
+  public static async dashboard() {
+    const totalFromVNDB = await VisualNovelService.getTotalFromVNDB();
+    const totalFromLocal = await VisualNovelRepository.count();
+    return {
+      vndb: totalFromVNDB,
+      ...totalFromLocal,
+    };
+  }
+
   /**
    * Get List of Visual Novels
    *

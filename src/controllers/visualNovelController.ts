@@ -5,6 +5,25 @@ import {validationResult} from 'express-validator';
 
 export default class VisualNovelController {
   /**
+   * Show Dashboard
+   *
+   * Show total of vns in vndb, local database
+   * and vn that have download link
+   *
+   * @param req Request
+   * @param res Response
+   * @returns Response
+   */
+  public static async dashboard(req: Request, res: Response) {
+    try {
+      const dashboard = await VisualNovelService.dashboard();
+      return successResponse(res, 200, 'Fetch Dashboard Success', dashboard);
+    } catch (error) {
+      return errorResponse(res, 500, 'INTERNAL_SERVER_ERROR', error);
+    }
+  }
+
+  /**
    * Get All List
    *
    * @param req Request
