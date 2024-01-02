@@ -70,7 +70,7 @@ export class VisualNovelOutput implements IVisualNovel {
     this.title = visualNovel.title;
     this.alias = visualNovel.alias;
     this.length =
-      lengths[typeof visualNovel.length !== 'number' ? 1 : visualNovel.length];
+      typeof visualNovel.length !== 'number' ? 1 : visualNovel.length;
     this.rating = visualNovel.rating;
     this.description = visualNovel.description
       ?.replace(/</g, '&lt;')
@@ -78,5 +78,14 @@ export class VisualNovelOutput implements IVisualNovel {
       ?.replace(/\n/g, '<br>');
     this.image = visualNovel.image;
     this.downloadUrl = visualNovel.downloadUrl;
+  }
+}
+
+export class VisualNovelBotOutput extends VisualNovelOutput {
+  length: number | string;
+
+  constructor(visualNovel: IVisualNovel) {
+    super(visualNovel);
+    this.length = lengths[visualNovel.length as number];
   }
 }

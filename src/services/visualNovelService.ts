@@ -5,7 +5,11 @@ import {
 import VisualNovelRepository, {
   IVisualNovelFilter,
 } from '../repositories/visualNovelRepository';
-import {IVisualNovel, VisualNovelOutput} from '../interfaces/visualNovel';
+import {
+  IVisualNovel,
+  VisualNovelBotOutput,
+  VisualNovelOutput,
+} from '../interfaces/visualNovel';
 
 export default class VisualNovelService {
   private static VNDB_API_V2_ENDPOINT = 'https://api.vndb.org/kana';
@@ -75,12 +79,19 @@ export default class VisualNovelService {
    * Get Visual Novel Detail
    *
    * @param code string
+   * @param isBot boolean
    * @return Promise<IVisualNovel>
    */
-  public static async detail(code: string): Promise<IVisualNovel> {
+  public static async detail(
+    code: string,
+    isBot: boolean
+  ): Promise<IVisualNovel> {
     const visualNovel = await VisualNovelRepository.detail(code);
     if (!visualNovel) {
       throw new Error('VN_NOT_FOUND');
+    }
+    if (isBot) {
+      return new VisualNovelBotOutput(visualNovel);
     }
     return new VisualNovelOutput(visualNovel);
   }

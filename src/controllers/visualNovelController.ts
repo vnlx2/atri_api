@@ -64,7 +64,10 @@ export default class VisualNovelController {
    */
   public static async detail(req: Request, res: Response) {
     try {
-      const visualNovel = await VisualNovelService.detail(req.params.id);
+      const visualNovel = await VisualNovelService.detail(
+        req.params.id,
+        Boolean(req.query.isBot ?? false)
+      );
       return successResponse(
         res,
         200,
