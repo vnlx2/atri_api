@@ -9,6 +9,7 @@ type ErrorBody = {
   errorCode: string;
   message: string;
   errors?: object;
+  stacktrace?: string;
 };
 
 const generateMessage = (errorCode: string) => {
@@ -77,11 +78,10 @@ export const errorResponse = (
       };
     });
   } else if (process.env.APP_DEBUG!) {
-    body.errors = {
-      message: errors?.message,
-      stacktrace: errors?.stack,
-    };
+    body.stacktrace = errors.stack;
   }
 
-  return res.status(httpCode).json(body);
+  return res
+    .status(errorCode.includes('NOT_FOUND') ? 404 : httpCode)
+    .json(body);
 };
