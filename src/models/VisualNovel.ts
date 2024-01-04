@@ -2,28 +2,34 @@ import {Document, Schema, model} from 'mongoose';
 import {IVisualNovel} from '../interfaces/visualNovel';
 
 // Schema
-const linkSchema = new Schema({
-  provider: {
-    type: String,
-    required: true,
+const linkSchema = new Schema(
+  {
+    provider: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+    },
+    platform: {
+      type: String,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
   },
-  type: {
-    type: String,
-  },
-  platform: {
-    type: String,
-  },
-  url: {
-    type: String,
-    required: true,
-  },
-});
+  {_id: false}
+);
 
-const downloadLinkSchema = new Schema({
-  jp_link: [linkSchema],
-  en_link: [linkSchema],
-  id_link: [linkSchema],
-});
+const downloadLinkSchema = new Schema(
+  {
+    jp_link: [linkSchema],
+    en_link: [linkSchema],
+    id_link: [linkSchema],
+  },
+  {_id: false}
+);
 
 export const VisualNovel = new Schema(
   {
