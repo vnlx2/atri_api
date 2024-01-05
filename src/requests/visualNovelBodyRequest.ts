@@ -77,6 +77,7 @@ export default {
   description: {
     optional: true,
     isString: {errorMessage: 'Description must be string'},
+    notEmpty: {errorMessage: 'Description must not be empty'},
     escape: true,
   },
   image: {
