@@ -25,7 +25,7 @@ export default () => {
       if (!validation) {
         throw new Error('INVALID_TOKEN');
       }
-      if (await redisService.get(`blacklist-${token}`)) {
+      if (await redisService.exists(`blacklist-${token}`)) {
         throw new Error('TOKEN_EXPIRED');
       }
       return next();

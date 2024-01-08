@@ -42,6 +42,11 @@ class RedisService {
     }
   }
 
+  async exists(tagName: string): Promise<boolean> {
+    const data = await this._client.exists(tagName);
+    return data === 1;
+  }
+
   async del(tagName: string) {
     await this._client.del(tagName);
   }
