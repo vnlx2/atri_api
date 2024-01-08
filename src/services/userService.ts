@@ -1,4 +1,4 @@
-import {compare, hash} from 'bcrypt';
+import {hash} from 'bcrypt';
 import {IUser} from '../models/User';
 import UserRepository from '../repositories/userRepository';
 
@@ -60,13 +60,14 @@ export default class UserService {
    * @return Promise<void>
    */
   public async updateUser(body: IUser): Promise<void> {
-    const user = await UserRepository.findByUsername(body.username!, true);
+    const user = await UserRepository.findById(body.id!);
     await UserRepository.update({
       _id: body.id!,
       username: body.username,
-      password: !(await compare(body.password!, user!.password!))
-        ? await hash(body.password!, 10)
-        : user?.password,
+      password:
+        body.newPassword !== undefined
+          ? await hash(body.newPassword!, 10)
+          : user?.password,
       role: body.role,
     });
   }

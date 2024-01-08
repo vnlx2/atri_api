@@ -19,16 +19,9 @@ export default class UserRepository {
    * Find by Username
    *
    * @param username string
-   * @param isPasswordValidation bool
    * @returns Promise<UserModel>
    */
-  public static async findByUsername(
-    username: string,
-    isPasswordValidation = false
-  ): Promise<IUser | null> {
-    if (isPasswordValidation) {
-      return this.userModel.findOne({username: username}).select('+password');
-    }
+  public static async findByUsername(username: string): Promise<IUser | null> {
     return this.userModel.findOne({username: username});
   }
 
@@ -48,9 +41,13 @@ export default class UserRepository {
    * Find by Id
    *
    * @param id string
+   * @param isPasswordValidation bool
    * @returns
    */
-  public static async findById(id: string) {
+  public static async findById(id: string, isPasswordValidation = false) {
+    if (isPasswordValidation) {
+      return this.userModel.findById(id).select('+password');
+    }
     return await this.userModel.findById(id).select('-__v').lean();
   }
 

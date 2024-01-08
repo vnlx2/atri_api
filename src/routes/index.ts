@@ -10,6 +10,7 @@ import visualNovelBodyRequest from '../requests/visualNovelBodyRequest';
 import BirthdayController from '../controllers/birthdayController';
 import birthdayRequest from '../requests/birthdayRequest';
 import checkRole from '../middlewares/checkRole';
+import userUpdateBodyRequest from '../requests/userUpdateBodyRequest';
 
 export const routers = Router();
 
@@ -44,7 +45,7 @@ routers.get('/user/:id', UserController.detail);
 routers.post('/user/store', checkSchema(userBodyRequest), UserController.store);
 routers.put(
   '/user/update',
-  checkSchema(userBodyRequest),
+  checkSchema(userUpdateBodyRequest),
   UserController.update
 );
 routers.delete('/user/delete/:id', UserController.drop);

@@ -5,6 +5,8 @@ export interface IUser {
   id?: string;
   username: string;
   password?: string;
+  oldPassword?: string;
+  newPassword?: string;
   role: string;
   timestamps?: string;
 }
