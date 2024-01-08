@@ -19,9 +19,16 @@ export default class UserRepository {
    * Find by Username
    *
    * @param username string
+   * @param isPasswordValidation bool
    * @returns Promise<UserModel>
    */
-  public static async findByUsername(username: string): Promise<IUser | null> {
+  public static async findByUsername(
+    username: string,
+    isPasswordValidation = false
+  ): Promise<IUser | null> {
+    if (isPasswordValidation) {
+      return this.userModel.findOne({username: username}).select('+password');
+    }
     return this.userModel.findOne({username: username});
   }
 
