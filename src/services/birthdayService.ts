@@ -3,15 +3,49 @@ import BirthdayRepository from '../repositories/birthdayRepository';
 
 export default class BirthdayService {
   /**
+   * Get Username
+   *
+   * @param id string
+   * @returns Promise<string>
+   */
+  public async getUsername(id: string): Promise<string> {
+    const response = await fetch(`https://discord.com/api/v9/users/${id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bot ${process.env.BOT_TOKEN}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
+    if (response.status !== 200) {
+      return 'Invalid User ID';
+    }
+    const data = await response.json();
+    return data.username;
+  }
+  /**
    * Get All Birthdays
    *
+   * @param page: number
    * @returns Promise<IBirthday[]>
    */
-  public async getAllBirthdays(): Promise<BirthdayOutput[]> {
-    const birthdays = await BirthdayRepository.all();
-    return birthdays.map(birthday => {
-      return new BirthdayOutput(birthday);
-    });
+  public async getAllBirthdays(page: number) {
+    const result = await BirthdayRepository.all(page);
+    return {
+      total: result.total,
+      list: await Promise.all(
+        result.list.map(async birthday => {
+          const username = await this.getUsername(birthday._id!.toString());
+          new Promise(r => setTimeout(r, 1500)); // Delay each iteration to prevent rate limited
+          return new BirthdayOutput({
+            _id: birthday._id!.toString(),
+            month: birthday.month,
+            day: birthday.day,
+            username: username,
+          });
+        })
+      ),
+    };
   }
 
   /**

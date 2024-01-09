@@ -16,16 +16,16 @@ export default class BirthdayController {
   public static async all(req: Request, res: Response) {
     try {
       const birthdays =
-        await BirthdayController.birthdayService.getAllBirthdays();
-      if (birthdays.length === 0) {
+        await BirthdayController.birthdayService.getAllBirthdays(
+          parseInt(req.query.page as string) ?? 1
+        );
+      if (birthdays.total === 0) {
         return successResponse(res, 200, 'Empty Birthday', []);
       }
-      return successResponse(
-        res,
-        200,
-        'Fetch Birthdays Data Success',
-        birthdays
-      );
+      return successResponse(res, 200, 'Fetch Birthdays Data Success', {
+        page: Number(req.query.page ?? 1),
+        ...birthdays,
+      });
     } catch (error) {
       return errorResponse(res, 500, 'INTERNAL_SERVER_ERROR', error);
     }

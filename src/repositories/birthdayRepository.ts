@@ -7,14 +7,21 @@ export default class BirthdayRepository {
   /**
    * Get All
    *
+   * @param page: number
    * @returns Promise<any[]>
    */
-  public static async all() {
-    return await this.birthdayModel
+  public static async all(page: number) {
+    const response = await this.birthdayModel
       .find()
       .select('-__v')
       .sort({month: 1, day: 1})
-      .lean();
+      .limit(10)
+      .skip(10 * (page - 1));
+    const total = await this.birthdayModel.countDocuments({});
+    return {
+      list: response,
+      total: total,
+    };
   }
 
   /**
