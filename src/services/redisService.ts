@@ -27,7 +27,7 @@ class RedisService {
     return true;
   }
 
-  async set(tagName: string, data: string, expired?: number) {
+  async set(tagName: string, data: unknown, expired?: number) {
     if (expired) {
       await this._client.setEx(tagName, expired, JSON.stringify(data));
     } else {

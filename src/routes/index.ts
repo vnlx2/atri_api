@@ -11,6 +11,8 @@ import BirthdayController from '../controllers/birthdayController';
 import birthdayRequest from '../requests/birthdayRequest';
 import checkRole from '../middlewares/checkRole';
 import userUpdateBodyRequest from '../requests/userUpdateBodyRequest';
+import ConfigurationController from '../controllers/configurationController';
+import cloudStorageProviderRequest from '../requests/cloudStorageProviderRequest';
 
 export const routers = Router();
 
@@ -22,6 +24,7 @@ routers.use(
     '/user',
     '/visualnovels',
     '/visualnovel',
+    '/config',
     '/birthday',
     '/birthdays',
   ],
@@ -67,6 +70,19 @@ routers.put(
   VisualNovelController.update
 );
 routers.delete('/visualnovel/delete/:id', VisualNovelController.delete);
+
+/**
+ * Configuration
+ */
+routers.get(
+  '/config/provider',
+  ConfigurationController.getCloudStorageProvider
+);
+routers.put(
+  '/config/provider/store',
+  checkSchema(cloudStorageProviderRequest),
+  ConfigurationController.storeCloudStorageProvider
+);
 
 /**
  * Birthday Routes
