@@ -77,7 +77,7 @@ export const errorResponse = (
         message,
       };
     });
-  } else if (process.env.APP_DEBUG!) {
+  } else if (process.env.APP_DEBUG === 'true') {
     body.stacktrace = errors.stack;
   }
 
