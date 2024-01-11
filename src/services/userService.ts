@@ -1,6 +1,9 @@
 import {hash} from 'bcrypt';
 import {IUser} from '../models/User';
 import UserRepository from '../repositories/userRepository';
+import {config} from 'dotenv';
+
+config();
 
 export default class UserService {
   /**
@@ -48,7 +51,10 @@ export default class UserService {
   public async storeUser(body: IUser): Promise<void> {
     await UserRepository.store({
       username: body.username,
-      password: await hash(body.password!, 10),
+      password: await hash(
+        body.password!,
+        parseInt(process.env.APP_ROUND!) ?? 10
+      ),
       role: body['role'],
     });
   }
@@ -66,7 +72,10 @@ export default class UserService {
       username: body.username,
       password:
         body.newPassword !== undefined
-          ? await hash(body.newPassword!, 10)
+          ? await hash(
+              body.newPassword!,
+              parseInt(process.env.APP_ROUND!) ?? 10
+            )
           : user?.password,
       role: body.role,
     });
