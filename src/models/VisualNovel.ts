@@ -66,6 +66,6 @@ export const VisualNovel = new Schema(
 );
 
 export const VisualNovelModel = model<IVisualNovel & Document>(
-  'vndbs',
+  'visual_novels',
   VisualNovel
 );
