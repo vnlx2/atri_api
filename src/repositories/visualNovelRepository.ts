@@ -6,6 +6,7 @@ export interface IVisualNovelFilter {
   $text?: {
     $search: string;
   };
+  code?: string;
   downloadUrl?: {
     $exists: boolean;
   };

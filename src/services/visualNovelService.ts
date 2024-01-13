@@ -49,14 +49,19 @@ export default class VisualNovelService {
    * @return Promise<any>
    */
   public static async list(filter: IVisualNovelsFilter) {
-    const searchFilter: IVisualNovelFilter =
-      filter.keyword !== ''
-        ? {
-            $text: {
-              $search: filter.keyword,
-            },
-          }
-        : {};
+    let searchFilter: IVisualNovelFilter = {};
+
+    if (filter.keyword !== '' && !filter.keyword.startsWith('v')) {
+      searchFilter = {
+        $text: {
+          $search: filter.keyword,
+        },
+      };
+    } else if (filter.keyword.startsWith('v')) {
+      searchFilter = {
+        code: filter.keyword.slice(1),
+      };
+    }
 
     if (filter.hasDownloadUrl) {
       searchFilter.downloadUrl = {$exists: true};
