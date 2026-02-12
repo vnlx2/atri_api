@@ -14,11 +14,11 @@ export default class UserService {
   public async getAllUsers(): Promise<IUser[]> {
     const users = await UserRepository.getAllUsers();
     return users.map(user => {
-      const id = user._id!.toString();
-      delete user._id;
       return {
-        id: id,
-        ...user,
+        id: user._id!.toString(),
+        username: user.username,
+        password: user.password,
+        role: user.role,
       };
     });
   }
@@ -34,11 +34,11 @@ export default class UserService {
     if (!user) {
       throw new Error('USER_NOT_FOUND');
     }
-    const idStr = user._id.toString();
-    delete user._id;
     return {
-      id: idStr,
-      ...user,
+      id: user._id!.toString(),
+      username: user.username,
+      password: user.password,
+      role: user.role,
     };
   }
 
@@ -55,7 +55,7 @@ export default class UserService {
         body.password!,
         parseInt(process.env.APP_ROUND!) ?? 10
       ),
-      role: body['role'],
+      role: body.role,
     });
   }
 

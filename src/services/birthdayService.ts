@@ -59,11 +59,10 @@ export default class BirthdayService {
     if (!birthday) {
       throw new Error('BIRTHDAY_NOT_FOUND');
     }
-    const idStr = birthday._id.toString();
-    delete birthday._id;
     return {
-      id: idStr,
-      ...birthday,
+      id: birthday._id!.toString(),
+      month: birthday.month,
+      day: birthday.day,
     };
   }
 
@@ -81,11 +80,10 @@ export default class BirthdayService {
       currentDay
     );
     return birthdays.map(birthday => {
-      const id = birthday._id!.toString();
-      delete birthday._id;
       return {
-        id: id,
-        ...birthday,
+        id: birthday._id!.toString(),
+        month: birthday.month,
+        day: birthday.day,
       };
     });
   }

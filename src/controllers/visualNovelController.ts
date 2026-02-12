@@ -36,7 +36,7 @@ export default class VisualNovelController {
         keyword: String(req.query.keyword ?? ''),
         page: Number(req.query.page ?? 1),
         isBot: Boolean(req.query.isBot ?? false),
-        hasDownloadUrl: req.query.hasDownloadUrl === 'true' ?? false,
+        hasDownloadUrl: req.query.hasDownloadUrl === 'true',
       });
       if (!visualNovels) {
         return successResponse(res, 200, 'Empty Data', []);
