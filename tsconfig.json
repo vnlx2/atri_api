@@ -5,7 +5,8 @@
     "rootDir": "./src",
     "outDir": "../build",
     "esModuleInterop": true,
-    "lib": ["es2018", "dom"]
+    "skipLibCheck": true,
+    "lib": ["esnext", "dom"]
   },
   "include": [
     "src/**/*.ts",
